@@ -1,0 +1,8 @@
+We started thinking about how often we use everyday products without really knowing their impact on the environment. Things like plastic bottles, toothbrushes, or packaging are used daily, but most people don’t stop to consider whether they’re eco-friendly or not.
+So we decided to build a simple solution that could quickly give users some awareness. The idea was to create an app where anyone can enter or scan a product and instantly see how sustainable it is, along with a better alternative.
+Since we had limited time, we focused on building a lightweight system using a predefined dataset and a rule-based scoring method. We also added eco points to make it a bit engaging and encourage better choices.
+The goal of EcoTrack AI is not complexity, but simplicity—helping people make slightly better decisions in their daily lives.
+
+
+
+Website-https://ecotrack-ivory.vercel.app/
