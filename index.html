@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EcoTrack - Smart Sustainability Scanner</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f4fff6;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background: #2ecc71;
+  color: white;
+  padding: 20px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.container {
+  margin-top: 50px;
+}
+
+input {
+  padding: 12px;
+  width: 250px;
+  border: 2px solid #2ecc71;
+  border-radius: 8px;
+  outline: none;
+}
+
+button {
+  padding: 12px 20px;
+  margin-left: 10px;
+  background: #2ecc71;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #27ae60;
+}
+
+.card {
+  margin: 30px auto;
+  padding: 20px;
+  width: 300px;
+  border-radius: 15px;
+  background: white;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  display: none;
+}
+
+.score {
+  font-size: 40px;
+  font-weight: bold;
+  color: #2ecc71;
+}
+
+.message {
+  margin-top: 10px;
+  font-size: 16px;
+}
+
+.alt {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #555;
+}
+</style>
+</head>
+
+<body>
+
+<header>🌿 EcoTrack</header>
+
+<div class="container">
+  <h2>Scan Your Product</h2>
+  
+  <input type="text" id="productInput" placeholder="Enter product name">
+  <button onclick="analyzeProduct()">Analyze</button>
+
+  <div class="card" id="resultCard">
+    <div class="score" id="score"></div>
+    <div class="message" id="message"></div>
+    <div class="alt" id="alternative"></div>
+  </div>
+</div>
+
+<script>
+const products = {
+  "plastic toothbrush": {
+    score: 2,
+    message: "Non-biodegradable ❌ Harmful to environment",
+    alternative: "Try Bamboo Toothbrush 🌱"
+  },
+  "bamboo toothbrush": {
+    score: 9,
+    message: "Eco-friendly ✅ Biodegradable",
+    alternative: "Great choice!"
+  },
+  "plastic bottle": {
+    score: 3,
+    message: "Causes pollution ❌",
+    alternative: "Use Steel or Glass Bottle"
+  },
+  "paper bag": {
+    score: 8,
+    message: "Better than plastic ✅",
+    alternative: "Reusable cloth bag is best!"
+  },
+  "loofah": {
+    score: 7,
+    message: "Natural option 🌿",
+    alternative: "Use organic loofah"
+  }
+= {
+  "plastic toothbrush": {
+    score: 2,
+    message: "Non-biodegradable ❌ Harmful to environment",
+    alternative: "Bamboo Toothbrush 🌱"
+  },
+  "bamboo toothbrush": {
+    score: 9,
+    message: "Eco-friendly ✅ Biodegradable",
+    alternative: "Keep using it!"
+  },
+  "plastic bottle": {
+    score: 3,
+    message: "Major contributor to pollution ❌",
+    alternative: "Steel or Glass Bottle"
+  },
+  "steel bottle": {
+    score: 9,
+    message: "Reusable and sustainable ✅",
+    alternative: "Great choice!"
+  },
+  "glass bottle": {
+    score: 8,
+    message: "Reusable but fragile ⚠️",
+    alternative: "Steel bottle is safer"
+  },
+  "plastic bag": {
+    score: 1,
+    message: "Highly polluting ❌",
+    alternative: "Cloth or Jute Bag"
+  },
+  "paper bag": {
+    score: 7,
+    message: "Better than plastic but not reusable ♻️",
+    alternative: "Reusable cloth bag"
+  },
+  "cloth bag": {
+    score: 10,
+    message: "Best eco-friendly option 🌿",
+    alternative: "Perfect choice!"
+  },
+  "jute bag": {
+    score: 10,
+    message: "100% biodegradable and reusable 🌱",
+    alternative: "Excellent!"
+  },
+  "plastic straw": {
+    score: 1,
+    message: "Very harmful to marine life ❌",
+    alternative: "Metal or Paper Straw"
+  },
+  "metal straw": {
+    score: 9,
+    message: "Reusable and eco-friendly ✅",
+    alternative: "Great!"
+  },
+  "paper straw": {
+    score: 6,
+    message: "Biodegradable but single-use ⚠️",
+    alternative: "Metal straw is better"
+  },
+  "disposable cup": {
+    score: 3,
+    message: "Single-use waste ❌",
+    alternative: "Reusable cup"
+  },
+  "ceramic cup": {
+    score: 9,
+    message: "Reusable and long-lasting ✅",
+    alternative: "Great choice!"
+  },
+  "thermocol plate": {
+    score: 1,
+    message: "Non-biodegradable ❌",
+    alternative: "Areca leaf plates"
+  },
+  "areca plate": {
+    score: 10,
+    message: "Fully biodegradable 🌿",
+    alternative: "Excellent!"
+  },
+  "plastic comb": {
+    score: 4,
+    message: "Not biodegradable ⚠️",
+    alternative: "Wooden comb"
+  },
+  "wooden comb": {
+    score: 9,
+    message: "Natural and eco-friendly 🌱",
+    alternative: "Good choice!"
+  },
+  "liquid shampoo bottle": {
+    score: 4,
+    message: "Plastic packaging waste ⚠️",
+    alternative: "Shampoo bars"
+  },
+  "shampoo bar": {
+    score: 9,
+    message: "Zero waste alternative 🌿",
+    alternative: "Keep using!"
+  },
+  "soap bar": {
+    score: 8,
+    message: "Less packaging waste ✅",
+    alternative: "Great option!"
+  },
+  "face wipes": {
+    score: 2,
+    message: "Non-biodegradable ❌",
+    alternative: "Reusable cloth wipes"
+  },
+  "cotton cloth": {
+    score: 9,
+    message: "Reusable and eco-friendly 🌿",
+    alternative: "Perfect!"
+  },
+  "earbuds": {
+    score: 3,
+    message: "Plastic waste ⚠️",
+    alternative: "Paper stem earbuds"
+  },
+  "paper earbuds": {
+    score: 8,
+    message: "Better alternative ♻️",
+    alternative: "Good choice!"
+  },
+  "aluminium foil": {
+    score: 5,
+    message: "Recyclable but energy intensive ⚠️",
+    alternative: "Reusable containers"
+  },
+  "tiffin box": {
+    score: 9,
+    message: "Reusable and sustainable 🍱",
+    alternative: "Great!"
+  },
+  "plastic packaging": {
+    score: 2,
+    message: "Major environmental hazard ❌",
+    alternative: "Biodegradable packaging"
+  },
+  "biodegradable packaging": {
+    score: 9,
+    message: "Eco-friendly packaging 🌱",
+    alternative: "Excellent!"
+  },
+  "loofah": {
+    score: 8,
+    message: "Natural and compostable 🌿",
+    alternative: "Great choice!"
+  },
+  "synthetic sponge": {
+    score: 3,
+    message: "Plastic-based and harmful ⚠️",
+    alternative: "Natural loofah"
+  },
+  "toothpaste tube": {
+    score: 4,
+    message: "Difficult to recycle ⚠️",
+    alternative: "Toothpaste tablets"
+  },
+  "toothpaste tablets": {
+    score: 9,
+    message: "Zero-waste option 🌱",
+    alternative: "Excellent!"
+  },
+  "razor": {
+    score: 3,
+    message: "Plastic waste ⚠️",
+    alternative: "Safety razor (metal)"
+  },
+  "safety razor": {
+    score: 9,
+    message: "Reusable and durable 🪒",
+    alternative: "Great!"
+  }
+}
+};
+
+function analyzeProduct() {
+  const input = document.getElementById("productInput").value.toLowerCase().trim();
+  const resultCard = document.getElementById("resultCard");
+
+  let found = null;
+
+  for (let key in products) {
+    if (input.includes(key)) {
+      found = products[key];
+      break;
+    }
+  }
+
+  if (found) {
+    document.getElementById("score").innerText = found.score + "/10";
+    document.getElementById("message").innerText = found.message;
+    document.getElementById("alternative").innerText = "Alternative: " + found.alternative;
+  } else {
+    document.getElementById("score").innerText = "N/A";
+    document.getElementById("message").innerText = "No data found ❓";
+    document.getElementById("alternative").innerText = "Try items like plastic bottle, toothbrush";
+  }
+
+  resultCard.style.display = "block";
+}
